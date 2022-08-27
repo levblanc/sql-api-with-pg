@@ -40,6 +40,16 @@ router.put('/users/:id', async (req, res) => {
   }
 });
 
-router.delete('/users/:id', async (req, res) => {});
+router.delete('/users/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const user = await UserRepo.delete(id);
+
+  if (user) {
+    res.send(user);
+  } else {
+    res.sendStatus(404);
+  }
+});
 
 module.exports = router;

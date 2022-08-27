@@ -28,14 +28,21 @@ class UserRepo {
 
   static async update(id, username, bio) {
     const { rows } = await pool.query(
-      'UPDATE users SET username = $1, bio = $2 WHERE id = $3 RETURNING *',
+      'UPDATE users SET username = $1, bio = $2 WHERE id = $3 RETURNING *;',
       [username, bio, id]
     );
 
     return toCamelCase(rows)[0];
   }
 
-  static async delete() {}
+  static async delete(id) {
+    const { rows } = await pool.query(
+      'DELETE FROM users WHERE id = $1 RETURNING *;',
+      [id]
+    );
+
+    return toCamelCase(rows)[0];
+  }
 }
 
 module.exports = UserRepo;
