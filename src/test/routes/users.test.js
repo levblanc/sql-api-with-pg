@@ -21,14 +21,16 @@ beforeAll(async () => {
   });
 
   // Create a new role
-  await pool.query(`
-    CREATE ROLE ${roleName} WITH LOGIN PASSWORD '${roleName}'
-  `);
+  // %I: identifiers. E.g.: table name, column names
+  // %L: literal values
+  await pool.query(
+    format('CREATE ROLE %I WITH LOGIN PASSWORD %L;', roleName, roleName)
+  );
 
   // Create a schema with the same name
-  await pool.query(`
-    CREATE SCHEMA ${roleName} AUTHORIZATION ${roleName};
-  `);
+  await pool.query(
+    format('CREATE SCHEMA %I AUTHORIZATION %I;', roleName, roleName)
+  );
 
   // Disconnect entirely from PG
   await pool.close();
