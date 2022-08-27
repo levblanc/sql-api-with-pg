@@ -10,6 +10,11 @@ beforeAll(async () => {
   context = await Context.build();
 });
 
+// make sure each test is running on a clean slate
+beforeEach(async () => {
+  await context.reset();
+});
+
 afterAll(() => {
   return context.close();
 });
